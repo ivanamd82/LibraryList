@@ -1,24 +1,25 @@
-package com.project.ivana.repository;
+package com.project.repository;
 
-import com.project.ivana.model.BarrowBook;
-import com.project.ivana.model.User;
+import com.project.model.BarrowBook;
+import com.project.model.User;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRepository {
 
-    private ArrayList<User> users  = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
     public UserRepository() {
 
     }
 
-    public void addUser(User user) {
+    public void save(User user) {
         users.add(user);
     }
 
-    public void removeUser(User user) {
+    public void delete(User user) {
         users.remove(user);
     }
 
@@ -30,7 +31,8 @@ public class UserRepository {
         }
         return null;
     }
-    //prebaciti u Library mozda
+
+
     public void barrowBook(int bookId, User user) {
         for (int i = 0; i < users.size(); i++ ) {
             if (users.get(i).getUserId() == user.getUserId()) {
@@ -39,7 +41,6 @@ public class UserRepository {
             }
         }
     }
-
      public void returnBook(int bookId, User user) {
         for (int i = 0; i < users.size(); i++ ) {
             if (users.get(i).getUserId() == user.getUserId()) {
@@ -61,5 +62,9 @@ public class UserRepository {
                         +" dateR: "+user.getBarrowedBooks().get(i).getDateOfReturn());
             }
         }
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 }

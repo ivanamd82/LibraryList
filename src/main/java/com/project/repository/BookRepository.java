@@ -1,22 +1,23 @@
-package com.project.ivana.repository;
+package com.project.repository;
 
-import com.project.ivana.model.Book;
+import com.project.model.Book;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BookRepository {
 
-    private ArrayList<Book> books = new ArrayList<>();
+    private List<Book> books = new ArrayList<>();
 
     public BookRepository() {
 
     }
 
-    public void addBook(Book book) {
+    public void save(Book book) {
         books.add(book);
     }
 
-    public void removeBook(Book book) {
+    public void delete(Book book) {
         books.remove(book);
     }
 

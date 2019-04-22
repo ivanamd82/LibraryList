@@ -1,4 +1,4 @@
-package com.project.ivana.model;
+package com.project.model;
 
 import java.time.LocalDate;
 
