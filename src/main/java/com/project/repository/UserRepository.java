@@ -19,19 +19,19 @@ public class UserRepository {
         users.add(user);
     }
 
-    public void delete(User user) {
+    public boolean delete(User user) {
         users.remove(user);
+        return true;
     }
 
     public User findUser(int userId) {
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUserId() == userId) {
-                return users.get(i);
+        for (User user: users) {
+            if(user.getUserId() == userId) {
+                return user;
             }
         }
         return null;
     }
-
 
     public void barrowBook(int bookId, User user) {
         for (int i = 0; i < users.size(); i++ ) {

@@ -74,19 +74,22 @@ public class Library {
         else {
             Book book = booksRep.findBook(bookId);
             User user = usersRep.findUser(userId);
-            book.changeStatus();
+            book.changeBorrowedStatus();
             usersRep.returnBook(book.getBookId(), user);
+            return true;
         }
     }
 
-    public void deleteUser(int userId){
+    public boolean deleteUser(int userId) {
         User user = usersRep.findUser(userId);
         usersRep.delete(user);
+        return true;
     }
 
-    public void deleteBook(int bookId) {
+    public boolean deleteBook(int bookId) {
         Book book = booksRep.findBook(bookId);
         booksRep.delete(book);
+        return true;
     }
 
     public void print() {
