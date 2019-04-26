@@ -5,7 +5,7 @@ public class Book {
     private int bookId;
     private String nameOfBook;
     private String author;
-    private boolean barroved;
+    private boolean borrowed;
 
     public Book() {
 
@@ -14,7 +14,7 @@ public class Book {
         this.bookId = bookId;
         this.nameOfBook = nameOfBook;
         this.author = author;
-        barroved = false;
+        borrowed = false;
     }
 
     public int getBookId() {
@@ -46,7 +46,7 @@ public class Book {
     }
 
     public void changeBorrowedStatus() {
-        barroved = !barroved;
+        borrowed = !borrowed;
     }
 
     @Override

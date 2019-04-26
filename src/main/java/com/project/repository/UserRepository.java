@@ -44,9 +44,9 @@ public class UserRepository {
      public void returnBook(int bookId, User user) {
         for (int i = 0; i < users.size(); i++ ) {
             if (users.get(i).getUserId() == user.getUserId()) {
-                for(int j = 0; j < users.get(i).getBarrowedBooks().size(); j++) {
-                    if (users.get(i).getBarrowedBooks().get(j).getIdBook() == bookId) {
-                        users.get(i).getBarrowedBooks().get(j).setDateOfReturn(LocalDate.now());
+                for (int j = 0; j < users.get(i).getBorrowedBooks().size(); j++) {
+                    if (users.get(i).getBorrowedBooks().get(j).getIdBook() == bookId) {
+                        users.get(i).getBorrowedBooks().get(j).setDateOfReturn(LocalDate.now());
                     }
                 }
             }
@@ -56,10 +56,10 @@ public class UserRepository {
     public void printBarrowedBook() {
         for (User user : users) {
             System.out.println("Id: " + user.getUserId() + " Name: " + user.getNameOfUser());
-            for (int i = 0; i < user.getBarrowedBooks().size(); i++) {
-                System.out.println("Name of book: "+user.getBarrowedBooks().get(i).getIdBook()
-                        +" date: "+user.getBarrowedBooks().get(i).getDateOfBarrow()
-                        +" dateR: "+user.getBarrowedBooks().get(i).getDateOfReturn());
+            for (int i = 0; i < user.getBorrowedBooks().size(); i++) {
+                System.out.println("Name of book: " + user.getBorrowedBooks().get(i).getIdBook()
+                        + " date: " + user.getBorrowedBooks().get(i).getDateOfBarrow()
+                        + " dateR: " + user.getBorrowedBooks().get(i).getDateOfReturn());
             }
         }
     }

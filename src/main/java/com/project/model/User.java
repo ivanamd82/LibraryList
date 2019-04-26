@@ -6,7 +6,7 @@ public class User {
 
     private int userId;
     private String nameOfUser;
-    private ArrayList<BarrowBook> barrowedBooks = new ArrayList<>();
+    private ArrayList<BorrowedBook> borrowedBooks = new ArrayList<>();
 
     public User() {
 
@@ -33,8 +33,8 @@ public class User {
         this.nameOfUser = nameOfUser;
     }
 
-    public ArrayList<BarrowBook> getBarrowedBooks() {
-        return barrowedBooks;
+    public ArrayList<BorrowedBook> getBorrowedBooks() {
+        return borrowedBooks;
     }
 
     @Override

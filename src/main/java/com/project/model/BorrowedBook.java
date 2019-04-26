@@ -2,17 +2,17 @@ package com.project.model;
 
 import java.time.LocalDate;
 
-public class BarrowBook {
+public class BorrowedBook {
 
     private int idBook;
     private LocalDate dateOfBarrow;
     private LocalDate dateOfReturn;
 
-    public BarrowBook() {
+    public BorrowedBook() {
 
     }
 
-    public BarrowBook(int idBook) {
+    public BorrowedBook(int idBook) {
         this.idBook = idBook;
         dateOfBarrow = LocalDate.now();
     }
@@ -39,6 +39,7 @@ public class BarrowBook {
     public void setDateOfReturn(LocalDate dateOfReturn) {
         this.dateOfReturn = dateOfReturn;
     }
+
 
     @Override
     public String toString() {

@@ -6,7 +6,6 @@ import com.project.model.User;
 import com.project.repository.BookRepository;
 import com.project.repository.UserRepository;
 /*
-Repositories has to be provided as constructor arguments
 Pleas consider using ternary operator instead of if else
 bookRep is initialised on the beggining
 But it should be provided as part of constructor
@@ -49,21 +48,23 @@ public class Library {
     public void barrowBook(Book book, User user) {
         if (booksRep.findBook(book.getBookId()) == null && usersRep.findUser(user.getUserId()) == null ) {
             System.out.println("Book ID or user ID invalid.");
+            return false;
+        }
+        book = booksRep.findBook(book.getBookId());
+
+        if (book.isBorrowed()) {
+            System.out.println("Book is already borrowed.");
+            return false;
         }
         else {
-            book = booksRep.findBook(book.getBookId());
-            if (book.isStatus()) {
-                book.changeStatus();
-                for (int i = 0; i < usersRep.getUsers().size(); i++ ) {
-                    if (usersRep.getUsers().get(i).getUserId() == user.getUserId()) {
-                    BarrowBook barrowBook = new BarrowBook(book.getBookId());
-                        usersRep.getUsers().get(i).getBarrowedBooks().add(barrowBook);
-                    }
+            book.changeBorrowedStatus();
+            for (int i = 0; i < usersRep.getUsers().size(); i++) {
+                if (usersRep.getUsers().get(i).getUserId() == user.getUserId()) {
+                    BorrowedBook borrowedBook = new BorrowedBook(book.getBookId());
+                    usersRep.getUsers().get(i).getBorrowedBooks().add(borrowedBook);
                 }
             }
-            else {
-                System.out.println("Book is already borrowed.");
-            }
+            return true;
         }
     }
 
@@ -80,13 +81,19 @@ public class Library {
         }
     }
 
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(int userId) throws UserIdInvalidException {
+        if (Objects.isNull(usersRep.findUser(userId))) {
+            throw new UserIdInvalidException();
+        }
         User user = usersRep.findUser(userId);
         usersRep.delete(user);
         return true;
     }
 
-    public boolean deleteBook(int bookId) {
+    public boolean deleteBook(int bookId) throws BookIdInvalidException {
+        if (Objects.isNull(booksRep.findBook(bookId))) {
+            throw new BookIdInvalidException();
+        }
         Book book = booksRep.findBook(bookId);
         booksRep.delete(book);
         return true;
