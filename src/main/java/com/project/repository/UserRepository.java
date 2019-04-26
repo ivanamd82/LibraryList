@@ -1,6 +1,5 @@
 package com.project.repository;
 
-import com.project.model.BarrowBook;
 import com.project.model.User;
 
 import java.time.LocalDate;
@@ -33,16 +32,8 @@ public class UserRepository {
         return null;
     }
 
-    public void barrowBook(int bookId, User user) {
-        for (int i = 0; i < users.size(); i++ ) {
-            if (users.get(i).getUserId() == user.getUserId()) {
-                BarrowBook barrowBook = new BarrowBook(bookId);
-                users.get(i).getBarrowedBooks().add(barrowBook);
-            }
-        }
-    }
-     public void returnBook(int bookId, User user) {
-        for (int i = 0; i < users.size(); i++ ) {
+    public void returnBook(int bookId, User user) {
+        for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUserId() == user.getUserId()) {
                 for (int j = 0; j < users.get(i).getBorrowedBooks().size(); j++) {
                     if (users.get(i).getBorrowedBooks().get(j).getIdBook() == bookId) {

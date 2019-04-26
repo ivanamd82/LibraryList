@@ -1,10 +1,18 @@
 package com.project.servis;
 
-import com.project.model.BarrowBook;
+import com.project.exception.BookAlreadyExistsException;
+import com.project.exception.BookIdInvalidException;
+import com.project.exception.UserAlreadyExistsException;
+import com.project.exception.UserIdInvalidException;
+import com.project.model.BorrowedBook;
 import com.project.model.Book;
 import com.project.model.User;
 import com.project.repository.BookRepository;
 import com.project.repository.UserRepository;
+
+import java.util.Objects;
+
+
 /*
 Pleas consider using ternary operator instead of if else
 bookRep is initialised on the beggining
@@ -12,41 +20,40 @@ But it should be provided as part of constructor
 And there should be checked if it set
 Otherwise exception should be thrown
  */
-
-
 public class Library {
 
-    private BookRepository booksRep = new BookRepository();
-    private UserRepository usersRep = new UserRepository();
+    private BookRepository booksRep;
+    private UserRepository usersRep;
 
-    public Library() {
+    public Library(BookRepository booksRep, UserRepository usersRep) {
+        this.booksRep = booksRep;
+        this.usersRep = usersRep;
+    }
+
+    public Book crateBook(int bookId, String nameOfBook, String author) throws BookAlreadyExistsException {
+        if (Objects.nonNull(booksRep.findBook(bookId))) {
+            throw new BookAlreadyExistsException();
+        }
+        Book book = new Book(bookId, nameOfBook, author);
+        booksRep.save(book);
+        System.out.println("Book added");
+        return book;
+    }
+
+    public User createUser(int userId, String nameOfUser) throws UserAlreadyExistsException {
+        if (Objects.nonNull(usersRep.findUser(userId))) {
+            throw new UserAlreadyExistsException();
+        }
+        User user = new User(userId, nameOfUser);
+        usersRep.save(user);
+        System.out.println("User added");
+        return user;
+
 
     }
 
-    public void crateBook(int bookId, String nameOfBook, String author) {
-        if (booksRep.findBook(bookId) == null) {
-            Book book = new Book(bookId, nameOfBook, author);
-            booksRep.save(book);
-            System.out.println("Book added");
-        }
-        else {
-            System.out.println("Id is already in use");
-        }
-    }
-
-    public void createUser(int userId, String nameOfUser) {
-        if (usersRep.findUser(userId) == null) {
-            User user = new User(userId, nameOfUser);
-            usersRep.save(user);
-            System.out.println("User added");
-        }
-        else {
-            System.out.println("Id is already in use");
-        }
-    }
-
-    public void barrowBook(Book book, User user) {
-        if (booksRep.findBook(book.getBookId()) == null && usersRep.findUser(user.getUserId()) == null ) {
+    public boolean borrowBook(Book book, User user) {
+        if (booksRep.findBook(book.getBookId()) == null || usersRep.findUser(user.getUserId()) == null) {
             System.out.println("Book ID or user ID invalid.");
             return false;
         }
@@ -68,17 +75,33 @@ public class Library {
         }
     }
 
-    public void returnBook(int bookId, int userId) {
-        if (booksRep.findBook(bookId) == null && usersRep.findUser(userId) == null ) {
+    public boolean returnBook(int bookId, int userId) {
+        if (booksRep.findBook(bookId) == null || usersRep.findUser(userId) == null) {
             System.out.println("Book ID or user ID invalid.");
+            return false;
         }
-        else {
-            Book book = booksRep.findBook(bookId);
-            User user = usersRep.findUser(userId);
-            book.changeBorrowedStatus();
-            usersRep.returnBook(book.getBookId(), user);
-            return true;
+        Book book = booksRep.findBook(bookId);
+        User user = usersRep.findUser(userId);
+        book.changeBorrowedStatus();
+        /*
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId() == user.getUserId()) {
+                for (int j = 0; j < users.get(i).getBorrowedBooks().size(); j++) {
+                    if (users.get(i).getBorrowedBooks().get(j).getIdBook() == bookId) {
+                        users.get(i).getBorrowedBooks().get(j).setDateOfReturn(LocalDate.now());
+                    }
+                }
+            }
         }
+         */
+        for (int i = 0; i < usersRep.getUsers().size(); i++) {
+            if(usersRep.getUsers().get(i).getUserId() == user.getUserId()) {
+                for (int j = 0; j < usersRep.getUsers().get(i).getBorrowedBooks().size(); j++) {
+                }
+            }
+        }
+        usersRep.returnBook(book.getBookId(), user);
+        return true;
     }
 
     public boolean deleteUser(int userId) throws UserIdInvalidException {
@@ -102,6 +125,7 @@ public class Library {
     public void print() {
         booksRep.print();
     }
+
     public void printB() {
         usersRep.printBarrowedBook();
     }

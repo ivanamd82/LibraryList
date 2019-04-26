@@ -41,8 +41,8 @@ public class Book {
         this.author = author;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isBorrowed() {
+        return borrowed;
     }
 
     public void changeBorrowedStatus() {

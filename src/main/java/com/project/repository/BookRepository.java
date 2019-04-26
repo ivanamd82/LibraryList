@@ -22,21 +22,24 @@ public class BookRepository {
     }
 
     public Book findBook(int bookId) {
-        if (books.size() != 0) {
-            for (int i = 0; i < books.size(); i++) {
-                if (books.get(i).getBookId() == bookId) {
-                    return books.get(i);
-                }
+
+        /*return books.stream()
+                .filter(book -> book.getBookId() == bookId)
+                .findFirst()
+                .orElseGet(null);*/
+        for (Book book : books) {
+            if (book.getBookId() == bookId) {
+                return book;
             }
         }
+
         return null;
     }
 
     public void print() {
         System.out.println("Knjige: ");
-        for (Book book: books
-             ) {
-            System.out.println(book.getNameOfBook() + " " + book.isStatus());
+        for (Book book : books) {
+            System.out.println(book.getNameOfBook() + " " + book.isBorrowed());
         }
     }
 }

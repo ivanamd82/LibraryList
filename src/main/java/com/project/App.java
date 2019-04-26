@@ -1,5 +1,7 @@
 package com.project;
 
+import com.project.repository.BookRepository;
+import com.project.repository.UserRepository;
 import com.project.servis.Library;
 
 import java.util.InputMismatchException;
@@ -8,9 +10,18 @@ import java.util.Scanner;
 public class App {
 
     static Scanner input = new Scanner(System.in);
-    static Library library = new Library();
+
+    public static BookRepository bookRepository(){
+        return new BookRepository();
+    }
+
+    public static UserRepository userRepository(){
+        return new UserRepository();
+    }
 
     public static void main(String[] args) {
+
+        new Library(bookRepository(), userRepository());
 
         while (true) {
             printMainMenu();
@@ -82,7 +93,6 @@ public class App {
     }
 
     private static void printUserDetails() {
-        library.print();
     }
 
 }
