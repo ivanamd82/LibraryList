@@ -10,16 +10,9 @@ import com.project.model.User;
 import com.project.repository.BookRepository;
 import com.project.repository.UserRepository;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
-
-/*
-Pleas consider using ternary operator instead of if else
-bookRep is initialised on the beggining
-But it should be provided as part of constructor
-And there should be checked if it set
-Otherwise exception should be thrown
- */
 public class Library {
 
     private BookRepository booksRep;
@@ -76,31 +69,22 @@ public class Library {
     }
 
     public boolean returnBook(int bookId, int userId) {
-        if (booksRep.findBook(bookId) == null || usersRep.findUser(userId) == null) {
+        Book book = booksRep.findBook(bookId);
+        User user = usersRep.findUser(userId);
+        if (book == null || user == null) {
             System.out.println("Book ID or user ID invalid.");
             return false;
         }
-        Book book = booksRep.findBook(bookId);
-        User user = usersRep.findUser(userId);
         book.changeBorrowedStatus();
-        /*
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getUserId() == user.getUserId()) {
-                for (int j = 0; j < users.get(i).getBorrowedBooks().size(); j++) {
-                    if (users.get(i).getBorrowedBooks().get(j).getIdBook() == bookId) {
-                        users.get(i).getBorrowedBooks().get(j).setDateOfReturn(LocalDate.now());
+        for (int i = 0; i < usersRep.getUsers().size(); i++) {
+            if (usersRep.getUsers().get(i).getUserId() == user.getUserId()) {
+                for (int j = 0; j < usersRep.getUsers().get(i).getBorrowedBooks().size(); j++) {
+                    if (usersRep.getUsers().get(i).getBorrowedBooks().get(j).getIdBook() == bookId) {
+                        usersRep.getUsers().get(i).getBorrowedBooks().get(j).setDateOfReturn(LocalDate.now());
                     }
                 }
             }
         }
-         */
-        for (int i = 0; i < usersRep.getUsers().size(); i++) {
-            if(usersRep.getUsers().get(i).getUserId() == user.getUserId()) {
-                for (int j = 0; j < usersRep.getUsers().get(i).getBorrowedBooks().size(); j++) {
-                }
-            }
-        }
-        usersRep.returnBook(book.getBookId(), user);
         return true;
     }
 

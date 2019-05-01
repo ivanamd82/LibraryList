@@ -57,12 +57,17 @@ public class LibraryTest {
         Mockito.when(userRepositoryMock.findUser(1)).thenReturn(new User());
 
         library.createUser(1, "Name");
+
+        Mockito.verify(userRepositoryMock).findUser(1);
     }
 
     @Test(expected = UserIdInvalidException.class)
     public void deleteUser_throws_UserIdInvalidException_when_User_no_exist() throws UserIdInvalidException {
         Mockito.when(userRepositoryMock.findUser(1)).thenReturn(null);
+
         library.deleteUser(1);
+
+        Mockito.verify(userRepositoryMock).findUser(1);
     }
 
     @Test
@@ -74,6 +79,8 @@ public class LibraryTest {
     public void deleteBook_throws_BookIdInvalidException_when_Book_no_exist() throws BookIdInvalidException {
         Mockito.when(bookRepositoryMock.findBook(1)).thenReturn(null);
         library.deleteBook(1);
+
+        Mockito.verify(bookRepositoryMock).findBook(1);
     }
 
 }
